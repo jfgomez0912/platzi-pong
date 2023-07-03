@@ -27,18 +27,11 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Install Dependencies
-        run: |
-          dpkg --add-architecture i386 
-          apt-get update
-          apt-get install -y libc6:i386
-          apt-get install -y libx11-6:i386
       - name: Web Build
         run: |
           mkdir -v -p build/web
           cd $PROJECT_PATH
-          godot --rendering-driver opengl3
-          godot -v --export-release Web ../build/web/index.html
+          godot -v --headless --export-release Web ../build/web/index.html
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
