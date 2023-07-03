@@ -9,6 +9,7 @@ on:
 env:
   GODOT_VERSION: 4.0.3
   PROJECT_PATH: platzi_pong
+  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
 jobs:
   export-web:
