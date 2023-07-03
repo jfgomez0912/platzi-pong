@@ -34,4 +34,4 @@ jobs:
       - name: Deploy to itch.io 🚀
         run: |
           zip -r $PROJECT_PATH.zip build/web/
-          butler push $PROJECT_PATH.zip $ITCHIO_USERNAME/$ITCHIO_GAME:windows
+          butler push $PROJECT_PATH.zip ${{ vars.ITCHIO_USERNAME }}/${{ vars.ITCHIO_GAME }}:windows
