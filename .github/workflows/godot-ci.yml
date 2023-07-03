@@ -32,6 +32,8 @@ jobs:
           dpkg --add-architecture i386 
           apt-get update
           apt-get install -y libc6:i386
+          apt-get install -y libx11-6:i386
+          apt-get install -y ia32-libs
       - name: Web Build
         run: |
           mkdir -v -p build/web
