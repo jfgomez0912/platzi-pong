@@ -8,12 +8,16 @@ on:
 
   workflow_dispatch:
 
+env:
+  GODOT_VERSION: 4.0.3
+  PROJECT_PATH: .
+
 jobs:
   export-web:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:3.3.4
+      image: barichello/godot-ci:4.0.3-stable
     steps:
       - name: Checkout
         uses: actions/checkout@v2
