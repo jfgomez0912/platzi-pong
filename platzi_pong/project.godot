@@ -52,5 +52,4 @@ ui_down={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.0901961, 0.0941176, 0.176471, 1)
