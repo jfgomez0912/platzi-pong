@@ -8,6 +8,15 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 env:
   GODOT_VERSION: 4.0.3
   PROJECT_PATH: platzi_pong
@@ -36,15 +45,9 @@ jobs:
           cd $PROJECT_PATH
           godot -v --headless --export-release HTML5 ../build/web/index.html
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: web
           path: build/web
-      - name: Install rsync 📚
-        run: |
-          apt-get install -y rsync
       - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: build/web # The folder the action should deploy.
+        id: deployment
+        uses: actions/deploy-pages@v2
