@@ -23,7 +23,7 @@ env:
 
 jobs:
   export-web:
-    name: Web Export
+    name: Web Export to itch.io
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.0.3
@@ -43,5 +43,5 @@ jobs:
           godot -v --headless --export-release Web ../build/web/index.html
       - name: Deploy to itch.io 🚀
         run: |
-          mkdir -v -p build/web
-          butler push directory $ITCHIO_USERNAME/$ITCHIO_GAME
+          zip -r $PROJECT_PATH.zip build/web/
+          butler push $PROJECT_PATH.zip $ITCHIO_USERNAME/$ITCHIO_GAME:windows
