@@ -31,6 +31,7 @@ jobs:
         run: |
           mkdir -v -p build/web
           cd $PROJECT_PATH
+          godot --rendering-driver opengl3
           godot -v --export-release Web ../build/web/index.html
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
