@@ -1,0 +1,124 @@
+[gd_scene load_steps=9 format=3 uid="uid://j1vf3fc5tyl8"]
+
+[ext_resource type="Script" path="res://levels/main.gd" id="1_opbtu"]
+[ext_resource type="PackedScene" uid="uid://cvgria6l8emih" path="res://characters/player.tscn" id="2_2jln4"]
+[ext_resource type="Script" path="res://characters/opponent.gd" id="3_jvnqo"]
+[ext_resource type="PackedScene" uid="uid://d4flcs6vprs2y" path="res://models/ball.tscn" id="4_qmnhj"]
+[ext_resource type="Script" path="res://models/ball.gd" id="5_lkd3j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ewss"]
+size = Vector2(1920, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jfnu1"]
+size = Vector2(50, 1080)
+
+[sub_resource type="SystemFont" id="SystemFont_mafpe"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_opbtu")
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+position = Vector2(960, 25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
+shape = SubResource("RectangleShape2D_5ewss")
+
+[node name="ColorRect" type="ColorRect" parent="TopWall"]
+offset_left = -960.0
+offset_top = -25.0
+offset_right = 960.0
+offset_bottom = 25.0
+color = Color(0.137255, 0.341176, 0.470588, 1)
+
+[node name="BotWall" type="StaticBody2D" parent="."]
+position = Vector2(960, 1055)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BotWall"]
+shape = SubResource("RectangleShape2D_5ewss")
+
+[node name="ColorRect" type="ColorRect" parent="BotWall"]
+offset_left = -960.0
+offset_top = -25.0
+offset_right = 960.0
+offset_bottom = 25.0
+color = Color(0.137255, 0.341176, 0.470588, 1)
+
+[node name="PlayerGoal" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerGoal"]
+position = Vector2(-25, 540)
+shape = SubResource("RectangleShape2D_jfnu1")
+
+[node name="OpponentGoal" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OpponentGoal"]
+position = Vector2(1945, 540)
+shape = SubResource("RectangleShape2D_jfnu1")
+
+[node name="Player" parent="." instance=ExtResource("2_2jln4")]
+position = Vector2(50, 420)
+scale = Vector2(2, 2)
+motion_mode = 1
+
+[node name="Opponent" parent="." instance=ExtResource("2_2jln4")]
+position = Vector2(1830, 420)
+scale = Vector2(2, 2)
+motion_mode = 1
+script = ExtResource("3_jvnqo")
+
+[node name="Ball" parent="." instance=ExtResource("4_qmnhj")]
+z_index = 1
+position = Vector2(960, 540)
+motion_mode = 1
+script = ExtResource("5_lkd3j")
+
+[node name="PlayerScore" type="Label" parent="."]
+offset_top = 50.0
+offset_right = 910.0
+offset_bottom = 1030.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_mafpe")
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 2
+
+[node name="OpponentScore" type="Label" parent="."]
+offset_left = 1010.0
+offset_top = 50.0
+offset_right = 1920.0
+offset_bottom = 1030.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_mafpe")
+theme_override_font_sizes/font_size = 64
+text = "0"
+
+[node name="Separator" type="Label" parent="."]
+offset_left = 910.0
+offset_top = 50.0
+offset_right = 1010.0
+offset_bottom = 1030.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_mafpe")
+theme_override_font_sizes/font_size = 64
+text = " - "
+horizontal_alignment = 1
+
+[node name="CountDown" type="Label" parent="."]
+z_as_relative = false
+offset_left = 910.0
+offset_top = 50.0
+offset_right = 1010.0
+offset_bottom = 730.0
+theme_override_colors/font_color = Color(0.87451, 0.466667, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_mafpe")
+theme_override_font_sizes/font_size = 120
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="body_entered" from="PlayerGoal" to="." method="_on_player_goal_body_entered"]
+[connection signal="body_entered" from="OpponentGoal" to="." method="_on_opponent_goal_body_entered"]
+[connection signal="timeout" from="RestartTimer" to="." method="_on_restart_timer_timeout"]
