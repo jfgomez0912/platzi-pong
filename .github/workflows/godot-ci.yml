@@ -27,6 +27,11 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+      - name: Install Dependencies
+        run: |
+          dpkg --add-architecture i386 
+          apt-get update
+          apt-get install -y libc6:i386
       - name: Web Build
         run: |
           mkdir -v -p build/web
@@ -40,7 +45,7 @@ jobs:
           path: build/web
       - name: Install rsync 📚
         run: |
-          apt-get update && apt-get install -y rsync
+          apt-get install -y rsync
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
